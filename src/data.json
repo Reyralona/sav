@@ -1,16 +1,1 @@
-{
-   "Students": [
-      {
-         "Name": "Michael Miyers",
-         "Major": "Physics",
-         "RN": 5543
-      }
-   ],
-   "Teachers": [
-      {
-         "Name": "Devil Maycry",
-         "Major": "Physics",
-         "RN": 5543
-      }
-   ]
-}
+{}

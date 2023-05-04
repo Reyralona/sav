@@ -1,55 +1,69 @@
 import json
 
-def read(file):
-    with(open(file, "r") as data):
-        content = json.loads(data.read())
-        return content 
-def write(file, jsonobj):
-    with(open(file, "w") as data):  
-        data.write(jsonobj)
+class parser:
+    def __init__(self, file):
+        self.file = file
+        
+    def read(self):
+        with(open(self.file, "r") as data):
+            content = json.loads(data.read())
+            return content 
+        
+    def write(self, jsonobj):
+        with(open(self.file, "w") as data):  
+            data.write(jsonobj)
 
-def addRole(role):
-    content = read("data.json")
-    if role in content:
-        print("Registry alread exists")
-    else:
+    def clearAll(self):
+        with (open(self.file, "w") as data):
+            data.write("{}")
+
+    def addRole(self, role):
+        content = self.read()
+        if role in content:
+            print("Registry alread exists")
+        else:
+            content[role] = []
+            jsonobj = json.dumps(content, indent=3)
+            self.write(jsonobj)
+
+    def delRole(self, role):
+        content = self.read()
+        if role in content:
+            del content[role]
+            jsonobj = json.dumps(content, indent=3)
+            self.write(jsonobj)
+        else:
+            print("Registry doesn't exist")
+
+    def addEntry(self, role, dictionary):
+        content = self.read()
+        students = content[role]
+        if dictionary in students:
+            print("Entry was already registered.")
+        else:
+            students.append(dictionary)
+            jsonobj = json.dumps(content, indent=3)
+            self.write(jsonobj)
+
+    def delEntry(self, role, dictionary):
+        content = self.read()
+        try:
+            students = content[role]
+        except KeyError:
+            print("Registry doesn't exist.")
+            return;
+        if dictionary in students:
+            students.pop(students.index(dictionary))
+            jsonobj = json.dumps(content, indent=3)
+            self.write(jsonobj)
+        else:
+            print("Entry doesn't exist")
+
+    def delAllEntries(self, role):
+        content = self.read()
         content[role] = []
         jsonobj = json.dumps(content, indent=3)
-        write("data.json", jsonobj)
+        self.write(jsonobj)
 
-def delRole(role):
-    content = read("data.json")
-    if role in content:
-        del content[role]
-        jsonobj = json.dumps(content, indent=3)
-        write("data.json", jsonobj)
-    else:
-        print("Registry doesn't exist")
-    
-
-def addEntry(role, dictionary):
-    content = read("data.json")
-    students = content[role]
-    
-    if dictionary in students:
-        print("Entry was already registered.")
-    else:
-        students.append(dictionary)
-        jsonobj = json.dumps(content, indent=3)
-        write("data.json", jsonobj)
-
-def deleteEntry(role, dictionary):
-    content = read("data.json")
-    try:
-        students = content[role]
-    except KeyError:
-        print("Registry doesn't exist.")
-        return;
-
-    if dictionary in students:
-        students.pop(students.index(dictionary))
-        jsonobj = json.dumps(content, indent=3)
-        write("data.json", jsonobj)
-    else:
-        print("Entry doesn't exist")
-
+test = parser("src/data.json")
+test.clearAll()
