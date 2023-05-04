@@ -1,4 +1,5 @@
 import json
+import os
 
 class parser:
     def __init__(self, file):
@@ -37,13 +38,19 @@ class parser:
 
     def addEntry(self, role, dictionary):
         content = self.read()
-        students = content[role]
-        if dictionary in students:
+        entry = content[role]
+        if dictionary in entry:
             print("Entry was already registered.")
         else:
-            students.append(dictionary)
+            entry.append(dictionary)
             jsonobj = json.dumps(content, indent=3)
             self.write(jsonobj)
+
+    def getEntry(self, role, elem):
+        content = self.read()
+        for each in content[role]:
+            if elem in (list(*each.items())):
+                return each
 
     def updEntry(self, role, oldDict, newDict):
         content = self.read()
@@ -64,12 +71,12 @@ class parser:
     def delEntry(self, role, dictionary):
         content = self.read()
         try:
-            students = content[role]
+            entry = content[role]
         except KeyError:
             print("Registry doesn't exist.")
             return;
-        if dictionary in students:
-            students.pop(students.index(dictionary))
+        if dictionary in entry:
+            entry.pop(entry.index(dictionary))
             jsonobj = json.dumps(content, indent=3)
             self.write(jsonobj)
         else:
@@ -80,5 +87,3 @@ class parser:
         content[role] = []
         jsonobj = json.dumps(content, indent=3)
         self.write(jsonobj)
-
-test = parser("src/data.json")
