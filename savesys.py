@@ -27,7 +27,7 @@ def delRole(role):
         print("Registry doesn't exist")
     
 
-def add(role, dictionary):
+def addEntry(role, dictionary):
     content = read("data.json")
     students = content[role]
     
@@ -38,7 +38,7 @@ def add(role, dictionary):
         jsonobj = json.dumps(content, indent=3)
         write("data.json", jsonobj)
 
-def delete(role, dictionary):
+def deleteEntry(role, dictionary):
     content = read("data.json")
     try:
         students = content[role]
@@ -52,16 +52,4 @@ def delete(role, dictionary):
         write("data.json", jsonobj)
     else:
         print("Entry doesn't exist")
-
-addRole("Students")
-add("Students", 
-    {"Name": "Michael Miyers", 
-    "Major" : "Physics", 
-    "RN" : 5543})
-
-addRole("Teachers")
-add("Teachers", 
-    {"Name": "Devil Maycry", 
-    "Major" : "Physics", 
-    "RN" : 5543})
 
