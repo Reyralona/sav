@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="demo"></div>
+</body>
+
+<script>
+
+    var request = new XMLHttpRequest();
+    request.open("GET","data.json", false);
+    request.send(null);
+    var jsonData = JSON.parse(request.responseText);
+
+    createSchoolDivs = function(){
+        myObj = jsonData;
+        let text = "<div id='School'>";
+        for (let i in myObj){
+            text += `<div id="${i}">`;
+            text += `<span class="header">` + `${i}` + `</span>`;
+            for (let j in myObj[i]){
+                text += "<span>"
+                let arr = myObj[i][j]
+                for (let key in arr){
+                    text += "<span>" + `${key}: ${arr[key]}  ` + "</span>"   
+                }
+                text += "</span>"
+            }
+            text += "</div>"
+        }
+        text += "</div>"    
+        document.getElementById("demo").innerHTML = text;
+    }
+
+    createSchoolDivs();
+
+</script>
+</html>
